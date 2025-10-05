@@ -1,22 +1,26 @@
 import openai
 import streamlit as st
 
-# Retrieve the OpenAI API key from Streamlit secrets
-openai.api_key = st.secrets["OPENAI_API_KEY"]
+# Set your OpenAI API key
+openai.api_key = st.secrets["openai_api_key"]
 
 def generate_invoice_description(customer_name, product, quantity, unit_price, invoice_amount):
-    prompt = f"Generate an invoice description for the customer '{customer_name}' who purchased {quantity} units of {product} at {unit_price} per unit, totalling {invoice_amount}."
+    # Chat model uses a "messages" format instead of a single prompt
+    messages = [
+        {"role": "system", "content": "You are a helpful assistant that generates invoices."},
+        {"role": "user", "content": f"Generate an invoice description for the customer '{customer_name}' who purchased {quantity} units of {product} at {unit_price} per unit, totalling {invoice_amount}."}
+    ]
     
-    # Make a call to OpenAI to generate the description
-    response = openai.Completion.create(
-        model="gpt-3.5-turbo",  # Or use "" for better output
-        prompt=prompt,
+    # Use the chat completions endpoint (for gpt-3.5-turbo or gpt-4)
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",  # or "gpt-4"
+        messages=messages,
         max_tokens=150,
         temperature=0.7
     )
     
     # Return the generated invoice description
-    return response.choices[0].text.strip()
+    return response['choices'][0]['message']['content'].strip()
 
 def calculate_invoice_amount(quantity, unit_price):
     return quantity * unit_price
