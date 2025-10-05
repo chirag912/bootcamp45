@@ -2,7 +2,7 @@ import openai
 import streamlit as st
 
 # Retrieve the OpenAI API key from Streamlit secrets
-openai.api_key = st.secrets["openai_api_key"]
+openai.api_key = st.secrets["OPENAI_API_KEY"]
 
 def generate_invoice_description(customer_name, product, quantity, unit_price, invoice_amount):
     prompt = f"Generate an invoice description for the customer '{customer_name}' who purchased {quantity} units of {product} at {unit_price} per unit, totalling {invoice_amount}."
