@@ -2,7 +2,7 @@ import openai
 import streamlit as st
 
 # Set your OpenAI API key
-openai.api_key = st.secrets["openai_api_key"]
+openai.api_key = st.secrets["OPENAI_API_KEY"]
 
 def generate_invoice_description(customer_name, product, quantity, unit_price, invoice_amount):
     # Chat model uses a "messages" format instead of a single prompt
