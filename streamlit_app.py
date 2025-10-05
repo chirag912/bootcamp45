@@ -1,15 +1,15 @@
 import openai
 import streamlit as st
 
-# Set your OpenAI API key
-openai.api_key = 'your-openai-api-key'
+# Retrieve the OpenAI API key from Streamlit secrets
+openai.api_key = st.secrets["openai_api_key"]
 
 def generate_invoice_description(customer_name, product, quantity, unit_price, invoice_amount):
     prompt = f"Generate an invoice description for the customer '{customer_name}' who purchased {quantity} units of {product} at {unit_price} per unit, totalling {invoice_amount}."
     
     # Make a call to OpenAI to generate the description
     response = openai.Completion.create(
-        model="gpt-3.5-turbo",  # You can use "gpt-3.5-turbo" as well
+        model="gpt-3.5-turbo",  # Or use "" for better output
         prompt=prompt,
         max_tokens=150,
         temperature=0.7
